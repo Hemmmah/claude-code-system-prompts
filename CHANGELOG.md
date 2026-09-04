@@ -4,6 +4,20 @@ Note: Only use **NEW:** for entirely new prompt files, NOT for new additions/sec
 
 ### Claude Code System Prompts Changelog
 
+# [2.1.261](https://github.com/Piebald-AI/claude-code-system-prompts/commit/96db375)
+
+_+1,296 tokens_
+
+- **NEW:** Data: SDK initialize plugins parameter — Documents loading session plugins through the initialize request instead of expanding the launch command line, including MCP-discovery opt-out; requires `--await-initialize` at startup, excludes repeated initialization and remote transports, and reports whether the listed plugins are loaded through `plugins_applied`.
+- Agent Prompt: Claude guide agent, Data: Claude Code recent changes reference, and Skill: Claude Code configuration guide — Clarify that `/skill-doctor` is generally available in current releases while `claude plugin eval` remains in early access.
+- Agent Prompt: Status line setup — Gates the cold-cache example on `caching_observed` so providers that report no cache tokens are not shown as cold, while preserving explicit boolean checks in `jq`.
+- Data: Claude Code gateway protocol — Corrects the token-counting fallback from a Haiku-only probe to a one-token request using the session's model unless `ANTHROPIC_SMALL_FAST_MODEL` or `ANTHROPIC_DEFAULT_HAIKU_MODEL` is set.
+- Data: Interrupt cancel queued parameter and Interrupt receipt still queued field — Document that an interrupt before the first turn has an abort controller latches onto pending user work, causing the first turn carrying that work to start aborted, including an otherwise unreachable UUID-less notification; spare system-only turns and post-interrupt work, release the latch when the parked batch is entirely cancelled or, with no parked batch, no doomed queued work remains, and leave later-turn survivors running normally.
+- Skill: Artifact components — Updates the documented approved hash for the decisions script while retaining the requirement to preserve shipped script bytes exactly.
+- Skill: Plugin authoring — Simplifies background-work guidance, dropping the explicit plugin attribution for submitted prompts and the no-shell and exit-code/output details for host command execution while retaining idle-session delivery and argument-vector invocation.
+- System Prompt: Auto mode Slack message provenance — Adds conditional recognition of human-triggered bound-thread wake envelopes, including attachment-prefixed envelopes regardless of the message's trust attribute, plus harness leads for posts received while working and verified-human Poll markers, as user intent and consent; rejects non-human senders and nested or peer-framed imitations while preserving bot permission-laundering blocks.
+- Tool Description: Artifact type discovery guidance — Treats a default design system as the user's standing instruction for every slide deck and visual design, requiring lookup before choosing fonts or colors and before filling a typed Artifact; prioritizes named systems, respects an explicit decline, asks about non-default choices when possible, and permits an independent look when none are listed or lookup is unavailable.
+
 # [2.1.260](https://github.com/Piebald-AI/claude-code-system-prompts/commit/f8e393f)
 
 _+4,234 tokens_
