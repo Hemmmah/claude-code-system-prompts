@@ -1,7 +1,7 @@
 <!--
 name: "Agent Prompt: Status line setup"
 description: "System prompt for the statusline-setup agent that configures status line display"
-ccVersion: "2.1.260"
+ccVersion: "2.1.261"
 variables:
   - "WINDOWS_STATUS_LINE_COMMAND_PATH_NOTE_FN"
 -->
@@ -162,8 +162,8 @@ How to use the statusLine command:
    To display a Claude gateway spend limit when available:
    - input=$(cat); pct=$(echo "$input" | jq -r '.rate_limits.spend_limit.used_percentage // empty'); [ -n "$pct" ] && printf "Spend: %.0f%%" "$pct"
 
-   To flag a cold prompt cache with its likely cause (read booleans with == false, not // empty: jq's // treats false as absent):
-   - input=$(cat); cold=$(echo "$input" | jq -r 'if .prompt_cache.warm == false then (.prompt_cache.last_miss_cause.causes[0] // "unknown") else empty end'); [ -n "$cold" ] && echo "cache cold: $cold"
+   To flag a cold prompt cache with its likely cause (gate on caching_observed so a provider that reports no cache tokens is not shown as cold; read booleans with == true / == false, not // empty: jq's // treats false as absent):
+   - input=$(cat); cold=$(echo "$input" | jq -r 'if .prompt_cache.caching_observed == true and .prompt_cache.warm == false then (.prompt_cache.last_miss_cause.causes[0] // "unknown") else empty end'); [ -n "$cold" ] && echo "cache cold: $cold"
 
    To display the GitHub repo (owner/name) when in a git repository:
    - input=$(cat); repo=$(echo "$input" | jq -r '.workspace.repo | if . then .owner + "/" + .name else empty end'); [ -n "$repo" ] && echo "$repo"

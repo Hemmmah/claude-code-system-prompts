@@ -1,7 +1,7 @@
 <!--
 name: "Data: Claude Code gateway protocol"
 description: "Markdown reference documenting the Claude Code gateway wire contract, including OAuth 2.0 device flow, RFC 8414 discovery, Messages API inference, managed settings, model discovery, OTLP telemetry, error envelopes, TLS certificate pinning, and proxying to Bedrock, Vertex, and Foundry"
-ccVersion: "2.1.257"
+ccVersion: "2.1.261"
 -->
 # Claude Code gateway protocol
 
@@ -268,7 +268,9 @@ provider's Claude endpoint needs translation:
   (and Bedrock sends none) — emit your own `event: ping` during silent gaps
   so long thinking pauses don't trip client or proxy idle timeouts.
 - **`count_tokens`.** Bedrock has no count-tokens API. Return
-  `501 not_supported`; the client falls back to a Haiku `max_tokens:1` probe.
+  `501 not_supported`; the client counts with a one-token request (the
+  session's model unless `ANTHROPIC_SMALL_FAST_MODEL` or
+  `ANTHROPIC_DEFAULT_HAIKU_MODEL` is set).
 - **Headers.** Forward `content-type`, `accept`, `accept-encoding`,
   `anthropic-version`, `anthropic-beta`, `user-agent`, and `x-stainless-*`;
   strip the client's `Authorization` and apply the upstream's own

@@ -1,7 +1,7 @@
 <!--
 name: "Skill: Plugin authoring"
 description: "Guides function-hook plugin development using generated type declarations, local loading and validation, UI rendering hooks, dispatch lifetimes, and registered tools"
-ccVersion: "2.1.260"
+ccVersion: "2.1.261"
 -->
 ---
 name: plugin-authoring
@@ -115,10 +115,10 @@ on it. Work meant to outlive a dispatch belongs elsewhere: start it from a
 awaited before the first prompt (so a `$.tool.register` awaited there is
 listed by turn one), and keep it going with `$.clock.every` and
 `$.clock.after`, whose timers run until cancelled or until the module
-reloads. `$.prompt.submit` hands the session a prompt as the plugin; it
-runs once the session is idle, which is how background work wakes a quiet
-session. `$.ui.status`, `$.ui.toast` and `$.ui.log` show state without
-starting a turn, and `$.store` keeps values across sessions. `$.process.run` runs a host command by its argument vector (no shell), resolving with its exit code and output.
+reloads. `$.prompt.submit` hands the session a prompt once it is idle, so
+background work can wake a quiet session. `$.ui.status`, `$.ui.toast` and
+`$.ui.log` show state without starting a turn, `$.store` keeps values
+across sessions, and `$.process.run` runs a host command by argv.
 
 ## Tools the model can call
 
